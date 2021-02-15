@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         float xAux = x;
         float yAux = y;
 
+        Boolean trueMove = false;
+
         if(x < 0){
             xAux = x*-1;
         }
@@ -84,14 +86,12 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 if(x < 0){
                     //Izquierda
                     Toast.makeText(getApplicationContext(), "Izquierda", Toast.LENGTH_LONG).show();
-                    moverIzquierda(matrix);
-                    spawnRandom(matrix);
+                    trueMove = moverIzquierda(matrix);
                     updateView(matrix);
                 }else{
                     //Derecha
                     Toast.makeText(getApplicationContext(), "Derecha", Toast.LENGTH_LONG).show();
-                    moverDerecha(matrix);
-                    spawnRandom(matrix);
+                    trueMove = moverDerecha(matrix);
                     updateView(matrix);
                 }
             }
@@ -102,102 +102,149 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 if(y < 0){
                     //Arriba
                     Toast.makeText(getApplicationContext(), "Arriba", Toast.LENGTH_LONG).show();
-                    moverArriba(matrix);
-                    spawnRandom(matrix);
+                    trueMove = moverArriba(matrix);
                     updateView(matrix);
                 }else{
                     //Abajo
                     Toast.makeText(getApplicationContext(), "Abajo", Toast.LENGTH_LONG).show();
-                    moverAbajo(matrix);
-                    spawnRandom(matrix);
+                    trueMove = moverAbajo(matrix);
                     updateView(matrix);
                 }
             }
+        }
+
+        if(trueMove == true){
+            spawnRandom(matrix);
+            updateView(matrix);
         }
 
     return true;
     }
 
 
-    public void moverArriba(int[][] matriz){
+    //TODO, SOLO HACE UNA FUSIÓN DE NUMEROS POR MOVIMIENTO, TIENE QUE HACERLAS TODAS, POR LO QUE EL CANSUM NO VA BIEN.
+    public Boolean moverArriba(int[][] matriz){
+
+        Boolean trueMove = false;
+        Boolean canSum = true;
 
         for (int i = 1; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
+                if(matriz[i][j] != 0){
                 int node = i;
                 while(node != 0){
                     if(matriz[node-1][j] == 0) {
                         matriz[node-1][j] = matriz[node][j];
                         matriz[node][j] = 0;
+                        trueMove = true;
                     }else if(matriz[node-1][j] == matriz[node][j]){
-                        matriz[node-1][j] = matriz[node-1][j] + matrix[node][j];
-                        matriz[node][j] = 0;
+                        if(canSum){
+                            matriz[node-1][j] = matriz[node-1][j] + matrix[node][j];
+                            matriz[node][j] = 0;
+                            trueMove = true;
+                            canSum= false;
+                        }
                     }
+
                     node--;
                 }
-
+                    canSum = true;
+                }
             }
         }
+
+        return trueMove;
     }
 
 
-    public void moverAbajo(int[][] matriz){
+    public Boolean moverAbajo(int[][] matriz){
+
+        Boolean trueMove = false;
+        Boolean canSum = true;
 
         for (int i = matriz.length-2; i >= 0; i--) {
             for (int j = 0; j < matriz[0].length; j++) {
-                int node = i;
-                while(node != 3){
-                    if(matriz[node+1][j] == 0) {
-                        matriz[node+1][j] = matriz[node][j];
-                        matriz[node][j] = 0;
-                    }else if(matriz[node+1][j] == matriz[node][j]){
-                        matriz[node+1][j] = matriz[node+1][j] + matrix[node][j];
-                        matriz[node][j] = 0;
-                    }
-                    node++;
-                }
-
-            }
-        }
-    }
-
-    public void moverDerecha(int[][] matriz){
-
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = matriz[0].length-2; j >= 0; j--) {
-                int node = j;
-                    while(node != 3){
-                        if(matriz[i][node+1] == 0) {
-                            matriz[i][node + 1] = matriz[i][node];
-                            matriz[i][node] = 0;
-                        }else if(matriz[i][node+1] == matriz[i][node]){
-                            matriz[i][node+1] = matriz[i][node+1] + matrix[i][node];
-                            matriz[i][node] = 0;
+                if(matriz[i][j] != 0) {
+                    int node = i;
+                    while (node != 3) {
+                        if (matriz[node + 1][j] == 0) {
+                            matriz[node + 1][j] = matriz[node][j];
+                            matriz[node][j] = 0;
+                            trueMove = true;
+                        } else if (matriz[node + 1][j] == matriz[node][j]) {
+                            if(canSum) {
+                                matriz[node + 1][j] = matriz[node + 1][j] + matrix[node][j];
+                                matriz[node][j] = 0;
+                                trueMove = true;
+                                canSum = false;
+                            }
                         }
                         node++;
                     }
-
+                }
             }
         }
+        return trueMove;
     }
 
-    public void moverIzquierda(int[][] matriz){
+    public Boolean moverDerecha(int[][] matriz){
+
+        Boolean trueMove = false;
+        Boolean canSum = true;
+
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = matriz[0].length-2; j >= 0; j--) {
+                if(matriz[i][j] != 0) {
+                    int node = j;
+                    while (node != 3) {
+                        if (matriz[i][node + 1] == 0) {
+                            matriz[i][node + 1] = matriz[i][node];
+                            matriz[i][node] = 0;
+                            trueMove = true;
+                        } else if (matriz[i][node + 1] == matriz[i][node]) {
+                            if(canSum) {
+                                matriz[i][node + 1] = matriz[i][node + 1] + matrix[i][node];
+                                matriz[i][node] = 0;
+                                trueMove = true;
+                                canSum = false;
+                            }
+                        }
+                        node++;
+                    }
+                }
+            }
+        }
+        return trueMove;
+    }
+
+    public Boolean moverIzquierda(int[][] matriz){
+
+        Boolean trueMove = false;
+        Boolean canSum = true;
 
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 1; j < matriz[0].length; j++) {
-                int node = j;
-                while(node != 0){
-                    if(matriz[i][node-1] == 0) {
-                        matriz[i][node - 1] = matriz[i][node];
-                        matriz[i][node] = 0;
-                    }else if(matriz[i][node-1] == matriz[i][node]){
-                        matriz[i][node-1] = matriz[i][node-1] + matrix[i][node];
-                        matriz[i][node] = 0;
+                if(matriz[i][j] != 0) {
+                    int node = j;
+                    while (node != 0) {
+                        if (matriz[i][node - 1] == 0) {
+                            matriz[i][node - 1] = matriz[i][node];
+                            matriz[i][node] = 0;
+                            trueMove = true;
+                        } else if (matriz[i][node - 1] == matriz[i][node]) {
+                            if(canSum) {
+                                matriz[i][node - 1] = matriz[i][node - 1] + matrix[i][node];
+                                matriz[i][node] = 0;
+                                trueMove = true;
+                                canSum = false;
+                            }
+                        }
+                        node--;
                     }
-                    node--;
                 }
-
             }
         }
+        return trueMove;
     }
 
     public void fillMatrix(){
