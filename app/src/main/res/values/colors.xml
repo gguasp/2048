@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="buttonLabel">#d3d3d3</color>
+
+    <color name="color2">#F2F2F2</color>
+    <color name="color4">#FFDE98</color>
+    <color name="color8">#E8AD2F</color>
+    <color name="color16">#E8912F</color>
+    <color name="color32">#E8752F</color>
+    <color name="color64">#EF5123</color>
+    <color name="color128">#F9FB65</color>
+    <color name="color256">#FCFF16</color>
+    <color name="color512">#EDE200</color>
+    <color name="color1024">#BCE516</color>
+    <color name="color2048">#6EE516</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#D6F209</color>
+    <color name="yellow2">#CCDC51</color>
+    <color name="blueInfoVersion">#1120C5</color>
+    <color name="red">#EC3510</color>
+
+
 </resources>
